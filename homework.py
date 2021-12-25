@@ -1,12 +1,12 @@
-from typing import Dict, List, Tuple, Type
 from dataclasses import dataclass
+from typing import Dict, List, Tuple, Type
 
 
 @dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
 
-    training_type: str = str
+    training_type: str = ''
     duration: float = float
     distance: float = float
     speed: float = float
@@ -40,12 +40,12 @@ class Training:
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
-        distance = self.action * self.LEN_STEP / self.M_IN_KM
+        distance: float = self.action * self.LEN_STEP / self.M_IN_KM
         return distance
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
-        speed = self.get_distance() / self.duration
+        speed: float = self.get_distance() / self.duration
         return speed
 
     def get_spent_calories(self) -> float:
@@ -71,7 +71,7 @@ class Running(Training):
 
     def get_spent_calories(self) -> float:
         """Рассчет потраченных колорий для Бега."""
-        spent_calories = ((
+        spent_calories: float = ((
             self.COEFF_1
             * self.get_mean_speed()
             - self.COEFF_2)
@@ -97,7 +97,7 @@ class SportsWalking(Training):
 
     def get_spent_calories(self) -> float:
         """Подсчет калорий для тренировки Спортивная Ходьба."""
-        spent_calories = ((
+        spent_calories: float = ((
             self.COEFF_3 * self.weight
             + (self.get_mean_speed() ** 2 // self.height)
             * self.COEFF_4 * self.weight)
@@ -126,7 +126,7 @@ class Swimming(Training):
 
     def get_mean_speed(self) -> float:
         """Рассчет скорости плавания."""
-        speed = (
+        speed: float = (
             self.length_pool
             * self.count_pool
             / self.M_IN_KM / self.duration)
@@ -134,7 +134,7 @@ class Swimming(Training):
 
     def get_spent_calories(self) -> float:
         """Рассчет потраченных калорий для тренировки Плавание."""
-        spent_calories = ((
+        spent_calories: float = ((
             self.get_mean_speed()
             + self.COEFF_5)
             * self.COEFF_6 * self.weight)
@@ -149,7 +149,7 @@ def read_package(workout_type: str, data: list) -> Training:
         'WLK': SportsWalking}
 
     if workout_type not in training_types:
-        raise ValueError('Not found.')
+        raise ValueError('This type of training not found.')
     return training_types[workout_type](*data)
 
 
